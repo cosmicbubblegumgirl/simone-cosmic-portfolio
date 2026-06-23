@@ -460,6 +460,12 @@ const elements = {
   beginExploration: document.querySelector("#beginExploration"),
   autoPilot: document.querySelector("#autoPilot"),
   audioToggle: document.querySelector("#audioToggle"),
+  launchSequence: document.querySelector("#launchSequence"),
+  launchStep: document.querySelector("#launchStep"),
+  launchMeter: document.querySelector("#launchMeter"),
+  missionPhase: document.querySelector("#missionPhase"),
+  missionObjective: document.querySelector("#missionObjective"),
+  missionProgress: document.querySelector("#missionProgress"),
   destinationPanel: document.querySelector("#destinationPanel"),
   holoTitle: document.querySelector("#holoTitle"),
   holoSummary: document.querySelector("#holoSummary"),
@@ -471,6 +477,8 @@ const elements = {
   enterSandbox: document.querySelector("#enterSandbox"),
   quickToggle: document.querySelector("#quickToggle"),
   quickDestinationList: document.querySelector("#quickDestinationList"),
+  touchFlightButtons: document.querySelectorAll("[data-flight]"),
+  dockButton: document.querySelector("[data-dock]"),
   shipStatus: document.querySelector("#shipStatus"),
   destinationCount: document.querySelector("#destinationCount")
 };
@@ -479,11 +487,14 @@ const cosmicState = {
   activeIndex: 2,
   autoPilot: true,
   launched: false,
+  launching: false,
+  dockedUntil: 0,
   lastPreviewIndex: null,
   destinations: [],
   destinationMeshes: [],
   keys: new Set(),
   pointer: { x: 0, y: 0 },
+  velocity: null,
   audio: null
 };
 
@@ -703,6 +714,53 @@ function wireClipboard() {
   });
 }
 
+function setMissionHud(phase, objective, progress) {
+  if (elements.missionPhase) elements.missionPhase.textContent = phase;
+  if (elements.missionObjective) elements.missionObjective.textContent = objective;
+  if (elements.missionProgress && Number.isFinite(progress)) {
+    elements.missionProgress.style.width = `${Math.max(0, Math.min(100, progress))}%`;
+  }
+}
+
+function setAutoPilot(enabled) {
+  cosmicState.autoPilot = enabled;
+  elements.autoPilot.textContent = enabled ? "Autopilot on" : "Manual flight";
+  elements.autoPilot.setAttribute("aria-pressed", String(enabled));
+  setMissionHud(
+    enabled ? "Autopilot route active" : "Manual flight active",
+    enabled ? "I am guiding the ship toward the next project destination." : "Use WASD, arrows, touch controls, or pointer movement to fly.",
+    enabled ? 48 : 18
+  );
+}
+
+function runLaunchSequence() {
+  if (!elements.launchSequence) return;
+  const steps = [
+    "Ignition armed",
+    "Star field calibrated",
+    "Project destinations online",
+    "Entering my portfolio universe"
+  ];
+
+  cosmicState.launching = true;
+  elements.launchSequence.classList.add("active");
+  elements.launchSequence.setAttribute("aria-hidden", "false");
+  steps.forEach((step, index) => {
+    window.setTimeout(() => {
+      elements.launchStep.textContent = step;
+      elements.launchMeter.style.width = `${((index + 1) / steps.length) * 100}%`;
+      setMissionHud("Launch sequence", step, ((index + 1) / steps.length) * 100);
+    }, index * 520);
+  });
+
+  window.setTimeout(() => {
+    elements.launchSequence.classList.remove("active");
+    elements.launchSequence.setAttribute("aria-hidden", "true");
+    cosmicState.launching = false;
+    setMissionHud("Exploration mode", "Approach a glowing destination, then dock into its live sandbox.", 55);
+  }, steps.length * 520 + 720);
+}
+
 function updateHologram(index, loadPreview = true) {
   const project = projects[index] || projects[0];
   cosmicState.activeIndex = projects.indexOf(project);
@@ -754,18 +812,16 @@ function renderQuickDestinations() {
 function wireCosmicControls() {
   elements.beginExploration.addEventListener("click", () => {
     cosmicState.launched = true;
-    cosmicState.autoPilot = true;
-    elements.autoPilot.textContent = "Autopilot on";
-    elements.autoPilot.setAttribute("aria-pressed", "true");
+    document.body.classList.add("mission-launched");
+    setAutoPilot(true);
+    runLaunchSequence();
     elements.destinationPanel.scrollIntoView({ behavior: "smooth", block: "center" });
     updateHologram(cosmicState.activeIndex, true);
     playSoftSignal();
   });
 
   elements.autoPilot.addEventListener("click", () => {
-    cosmicState.autoPilot = !cosmicState.autoPilot;
-    elements.autoPilot.textContent = cosmicState.autoPilot ? "Autopilot on" : "Manual flight";
-    elements.autoPilot.setAttribute("aria-pressed", String(cosmicState.autoPilot));
+    setAutoPilot(!cosmicState.autoPilot);
     elements.shipStatus.textContent = cosmicState.autoPilot ? "Autopilot scanning destinations" : "Manual controls active";
     playSoftSignal();
   });
@@ -778,6 +834,8 @@ function wireCosmicControls() {
 
   elements.enterSandbox.addEventListener("click", () => {
     selectProject(cosmicState.activeIndex, true);
+    cosmicState.dockedUntil = Date.now() + 2400;
+    setMissionHud("Docking complete", "I opened the selected live sandbox in the project bay.", 100);
     playSoftSignal();
   });
 
@@ -792,9 +850,7 @@ function wireCosmicControls() {
     if (!button) return;
     const index = Number(button.dataset.index);
     cosmicState.activeIndex = index;
-    cosmicState.autoPilot = true;
-    elements.autoPilot.textContent = "Autopilot on";
-    elements.autoPilot.setAttribute("aria-pressed", "true");
+    setAutoPilot(true);
     updateHologram(index, true);
     highlightDestination(index);
     playSoftSignal();
@@ -803,9 +859,7 @@ function wireCosmicControls() {
   window.addEventListener("keydown", (event) => {
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "w", "a", "s", "d", "W", "A", "S", "D"].includes(event.key)) {
       cosmicState.keys.add(event.key.toLowerCase());
-      cosmicState.autoPilot = false;
-      elements.autoPilot.textContent = "Manual flight";
-      elements.autoPilot.setAttribute("aria-pressed", "false");
+      setAutoPilot(false);
     }
   });
 
@@ -817,6 +871,30 @@ function wireCosmicControls() {
     const rect = elements.galaxyCanvas.getBoundingClientRect();
     cosmicState.pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     cosmicState.pointer.y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
+  });
+
+  elements.touchFlightButtons.forEach((button) => {
+    const key = button.dataset.flight;
+    const start = (event) => {
+      event.preventDefault();
+      cosmicState.keys.add(key);
+      setAutoPilot(false);
+    };
+    const stop = (event) => {
+      event.preventDefault();
+      cosmicState.keys.delete(key);
+    };
+    button.addEventListener("pointerdown", start);
+    button.addEventListener("pointerup", stop);
+    button.addEventListener("pointerleave", stop);
+    button.addEventListener("pointercancel", stop);
+  });
+
+  elements.dockButton.addEventListener("click", () => {
+    selectProject(cosmicState.activeIndex, true);
+    cosmicState.dockedUntil = Date.now() + 2400;
+    setMissionHud("Docking complete", "I opened the selected live sandbox in the project bay.", 100);
+    playSoftSignal();
   });
 }
 
@@ -897,6 +975,7 @@ function startCosmicScene() {
 
   const ship = createShip(THREE);
   ship.position.set(0, 0, 14);
+  cosmicState.velocity = new THREE.Vector3();
   scene.add(ship);
 
   const starField = createStarField(THREE, reduceMotion ? 680 : 1400);
@@ -921,9 +1000,7 @@ function startCosmicScene() {
     const index = hits[0].object.userData.index ?? hits[0].object.parent?.userData.index;
     if (Number.isInteger(index)) {
       cosmicState.activeIndex = index;
-      cosmicState.autoPilot = true;
-      elements.autoPilot.textContent = "Autopilot on";
-      elements.autoPilot.setAttribute("aria-pressed", "true");
+      setAutoPilot(true);
       updateHologram(index, true);
       highlightDestination(index);
       playSoftSignal();
@@ -951,6 +1028,12 @@ function startCosmicScene() {
 
     ship.rotation.z = THREE.MathUtils.lerp(ship.rotation.z, -cosmicState.pointer.x * 0.34, 0.04);
     ship.rotation.x = THREE.MathUtils.lerp(ship.rotation.x, cosmicState.pointer.y * 0.16, 0.04);
+    const thruster = ship.children.find((child) => child.userData.thruster);
+    if (thruster) {
+      const pulse = 1 + Math.sin(t * 18) * 0.18 + (cosmicState.autoPilot ? 0.16 : 0.32);
+      thruster.scale.set(1, pulse, 1);
+      thruster.material.opacity = cosmicState.autoPilot ? 0.72 : 0.9;
+    }
 
     const follow = new THREE.Vector3(ship.position.x, ship.position.y + 9, ship.position.z + 30);
     camera.position.lerp(follow, 0.05);
@@ -1003,8 +1086,17 @@ function createShip(THREE) {
   const engine = new THREE.Mesh(new THREE.ConeGeometry(0.36, 1.1, 18), glowMaterial);
   engine.rotation.x = -Math.PI / 2;
   engine.position.z = 1.52;
+  const flameMaterial = new THREE.MeshBasicMaterial({
+    color: 0xff8fd6,
+    transparent: true,
+    opacity: 0.78
+  });
+  const flame = new THREE.Mesh(new THREE.ConeGeometry(0.3, 1.45, 18), flameMaterial);
+  flame.rotation.x = Math.PI / 2;
+  flame.position.z = 2.18;
+  flame.userData.thruster = true;
 
-  ship.add(body, cockpit, leftWing, rightWing, engine);
+  ship.add(body, cockpit, leftWing, rightWing, engine, flame);
   return ship;
 }
 
@@ -1158,10 +1250,21 @@ function createDestinations(THREE, parent) {
 }
 
 function moveShip(ship, destinations, reduceMotion) {
+  const THREE = window.THREE;
+  if (!cosmicState.velocity) cosmicState.velocity = new THREE.Vector3();
+  if (!cosmicState.launched) {
+    cosmicState.velocity.multiplyScalar(0.88);
+    ship.position.lerp(new THREE.Vector3(0, 0, 14), reduceMotion ? 0.05 : 0.025);
+    return;
+  }
+
   const target = destinations[cosmicState.activeIndex]?.position;
   if (cosmicState.autoPilot && target) {
     const desired = target.clone().add(new THREE.Vector3(0, 1.2, 8));
-    ship.position.lerp(desired, reduceMotion ? 0.025 : 0.012);
+    const force = desired.clone().sub(ship.position).multiplyScalar(reduceMotion ? 0.018 : 0.012);
+    cosmicState.velocity.lerp(force, reduceMotion ? 0.12 : 0.07);
+    cosmicState.velocity.clampLength(0, reduceMotion ? 0.38 : 0.74);
+    ship.position.add(cosmicState.velocity);
     if (ship.position.distanceTo(desired) < 3.2 && !reduceMotion) {
       const next = (cosmicState.activeIndex + 1) % projects.length;
       if (Math.random() > 0.988) {
@@ -1173,14 +1276,23 @@ function moveShip(ship, destinations, reduceMotion) {
     return;
   }
 
-  const speed = 0.33;
+  const speed = reduceMotion ? 0.08 : 0.14;
   const forward = cosmicState.keys.has("w") || cosmicState.keys.has("arrowup") ? -speed : 0;
   const back = cosmicState.keys.has("s") || cosmicState.keys.has("arrowdown") ? speed : 0;
   const left = cosmicState.keys.has("a") || cosmicState.keys.has("arrowleft") ? -speed : 0;
   const right = cosmicState.keys.has("d") || cosmicState.keys.has("arrowright") ? speed : 0;
-  ship.position.x += left + right + cosmicState.pointer.x * 0.035;
-  ship.position.y += cosmicState.pointer.y * 0.028;
-  ship.position.z += forward + back;
+  const thrust = new THREE.Vector3(
+    left + right + cosmicState.pointer.x * 0.018,
+    cosmicState.pointer.y * 0.014,
+    forward + back
+  );
+  cosmicState.velocity.add(thrust);
+  cosmicState.velocity.multiplyScalar(reduceMotion ? 0.82 : 0.9);
+  cosmicState.velocity.clampLength(0, reduceMotion ? 0.28 : 0.68);
+  ship.position.add(cosmicState.velocity);
+  ship.position.x = THREE.MathUtils.clamp(ship.position.x, -72, 72);
+  ship.position.y = THREE.MathUtils.clamp(ship.position.y, -20, 24);
+  ship.position.z = THREE.MathUtils.clamp(ship.position.z, -140, 34);
 }
 
 function updateNearestDestination(ship, destinations) {
@@ -1194,6 +1306,14 @@ function updateNearestDestination(ship, destinations) {
     }
   });
 
+  if (!cosmicState.launched) {
+    if (elements.shipStatus) {
+      elements.shipStatus.textContent = "Mission Control ready - press Launch Portfolio";
+    }
+    setMissionHud("Mission Control online", "Launch when ready, then pilot toward a glowing destination.", 8);
+    return;
+  }
+
   if (!cosmicState.autoPilot && nearest !== cosmicState.activeIndex && nearestDistance < 13) {
     cosmicState.activeIndex = nearest;
     updateHologram(nearest, false);
@@ -1203,7 +1323,19 @@ function updateNearestDestination(ship, destinations) {
   if (elements.shipStatus) {
     const project = projects[cosmicState.activeIndex];
     const distance = Math.max(0, Math.round(nearestDistance));
-    elements.shipStatus.textContent = `${cosmicState.autoPilot ? "Autopilot" : "Manual"} near ${project.title} - ${distance} AU`;
+    const speed = cosmicState.velocity ? Math.round(cosmicState.velocity.length() * 100) : 0;
+    const dockReady = nearestDistance < 8;
+    const mode = cosmicState.autoPilot ? "Autopilot" : "Manual";
+    elements.shipStatus.textContent = dockReady
+      ? `${mode} docking range: ${project.title} - press Dock`
+      : `${mode} approaching ${project.title} - ${distance} AU - speed ${speed}`;
+    if (!cosmicState.launching && Date.now() > cosmicState.dockedUntil) {
+      setMissionHud(
+        dockReady ? "Docking range" : `${mode} navigation`,
+        dockReady ? `I am close enough to enter ${project.title}.` : `Approaching ${project.title} through my project universe.`,
+        dockReady ? 100 : Math.max(10, Math.min(92, 100 - nearestDistance * 2.4))
+      );
+    }
   }
 }
 

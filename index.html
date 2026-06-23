@@ -8,7 +8,7 @@
       name="description"
       content="My interactive portfolio for web development, data analytics, UX, SAP, education, and digital project work."
     >
-    <link rel="stylesheet" href="styles.css?v=20260623-autopilot">
+    <link rel="stylesheet" href="styles.css?v=20260624-game">
   </head>
   <body>
     <header class="site-header">
@@ -32,15 +32,30 @@
       <section class="mission-control" id="galaxy" aria-label="Mission Control cosmic portfolio">
         <canvas id="galaxyCanvas" aria-label="Interactive 3D galaxy map of my project destinations"></canvas>
         <div class="cosmic-vignette" aria-hidden="true"></div>
+        <div class="launch-sequence" id="launchSequence" aria-live="polite" aria-hidden="true">
+          <span>Launch sequence</span>
+          <strong id="launchStep">Mission Control standing by</strong>
+          <div class="launch-meter" aria-hidden="true"><span id="launchMeter"></span></div>
+        </div>
+
+        <div class="mission-hud" aria-label="Mission progress">
+          <span class="hud-light" aria-hidden="true"></span>
+          <div>
+            <strong id="missionPhase">Mission Control online</strong>
+            <span id="missionObjective">Launch when ready, then pilot toward a glowing destination.</span>
+          </div>
+          <div class="hud-meter" aria-hidden="true"><span id="missionProgress"></span></div>
+        </div>
 
         <div class="mission-overlay">
           <article class="mission-card">
             <p class="eyebrow">Mission Control</p>
             <h1>Hi, I'm Simon&eacute;. Let's explore my project universe.</h1>
             <p class="hero-text">
-              Fly through my galaxy of live web sandboxes, SAP learning systems,
-              creative tools, product concepts, data-minded builds, and polished
-              front-end experiments.
+              This portfolio is my universe: every planet, station, and signal leads
+              to a live project sandbox, SAP proof point, creative build, or polished
+              front-end experiment. Start at Mission Control, launch the ship, and
+              explore the work like a journey.
             </p>
             <div class="hero-actions" aria-label="Mission launch actions">
               <button class="button primary" id="beginExploration" type="button">Launch Portfolio</button>
@@ -93,12 +108,20 @@
         <div class="flight-deck" aria-label="Flight controls">
           <div>
             <strong>Flight controls</strong>
-            <span>WASD or arrows to drift. Mouse/touch to steer. Click a planet to inspect.</span>
+            <span>WASD or arrows to fly. Mouse/touch steers the nose. Click a planet, station, or moon to inspect it.</span>
           </div>
           <div class="flight-readout">
             <span id="shipStatus">Autopilot scanning destinations</span>
             <span id="destinationCount">38 destinations online</span>
           </div>
+        </div>
+
+        <div class="mobile-flight-pad" aria-label="Touch flight controls">
+          <button type="button" data-flight="w">W</button>
+          <button type="button" data-flight="a">A</button>
+          <button type="button" data-flight="s">S</button>
+          <button type="button" data-flight="d">D</button>
+          <button type="button" data-dock>Dock</button>
         </div>
 
         <nav class="quick-destinations" aria-label="Quick project destinations">
@@ -435,6 +458,6 @@
     </footer>
 
     <script src="vendor/three.min.js" defer></script>
-    <script src="app.js" defer></script>
+    <script src="app.js?v=20260624-game" defer></script>
   </body>
 </html>
