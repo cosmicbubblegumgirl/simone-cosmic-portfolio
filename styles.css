@@ -1039,15 +1039,18 @@ main {
 }
 
 .button {
-  border-color: rgba(97, 244, 255, 0.24);
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 12px 30px rgba(0, 0, 0, 0.24);
+  border-color: rgba(97, 244, 255, 0.58);
+  background: linear-gradient(135deg, rgba(7, 16, 34, 0.96), rgba(24, 42, 86, 0.92));
+  color: #f7fbff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.42);
+  box-shadow: 0 0 0 1px rgba(97, 244, 255, 0.16), 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
 .button.primary {
   border-color: rgba(199, 255, 91, 0.65);
   background: linear-gradient(135deg, #c7ff5b, #61f4ff);
   color: #061018;
+  text-shadow: none;
 }
 
 .button.ghost {
