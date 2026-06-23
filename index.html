@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simon&eacute; Govender | Digital Portfolio</title>
+    <meta
+      name="description"
+      content="Simon&eacute; Govender's interactive portfolio for web development, data analytics, UX, SAP, education, and digital project work."
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Simon&eacute; Govender home">
+        <span class="brand-mark">SG</span>
+        <span>Simon&eacute; Govender</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#top">Mission</a>
+        <a href="#galaxy">Galaxy</a>
+        <a href="#projects">Sandboxes</a>
+        <a href="#logbook">Logbook</a>
+        <a href="#skills">Constellation</a>
+        <a href="#sap-certs">SAP Certs</a>
+        <a href="#cv">CV</a>
+        <a href="#contact">Signal</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="mission-control" id="galaxy" aria-label="Mission Control cosmic portfolio">
+        <canvas id="galaxyCanvas" aria-label="Interactive 3D galaxy map of Simon&eacute; Govender's project destinations"></canvas>
+        <div class="cosmic-vignette" aria-hidden="true"></div>
+
+        <div class="mission-overlay">
+          <article class="mission-card">
+            <p class="eyebrow">Mission Control</p>
+            <h1>Navigate Simon&eacute; Govender's project universe.</h1>
+            <p class="hero-text">
+              Pilot through a galaxy of live web sandboxes, SAP learning systems,
+              creative tools, product concepts, data-minded builds, and polished
+              front-end experiments.
+            </p>
+            <div class="hero-actions" aria-label="Mission launch actions">
+              <button class="button primary" id="beginExploration" type="button">Launch Portfolio</button>
+              <button class="button" id="autoPilot" type="button" aria-pressed="true">Autopilot on</button>
+              <button class="button ghost" id="audioToggle" type="button" aria-pressed="false">Ambient audio off</button>
+            </div>
+            <div class="signal-strip" aria-label="Portfolio highlights">
+              <span><strong data-count="38">0</strong> destinations</span>
+              <span><strong data-count="62">0</strong> CV pages</span>
+              <span><strong data-count="11">0</strong> SAP creds</span>
+            </div>
+          </article>
+
+          <aside class="commander-card" aria-label="Commander profile">
+            <img src="assets/portrait.png" alt="Portrait of Simon&eacute; Govender" class="portrait">
+            <div>
+              <p class="panel-kicker">Commander profile: multidisciplinary digital professional based in KZN, South Africa.</p>
+              <ul class="contact-points">
+                <li><a href="mailto:simon3m3ll3m@gmail.com">simon3m3ll3m@gmail.com</a></li>
+                <li><a href="https://github.com/cosmicbubblegumgirl" target="_blank" rel="noreferrer">GitHub universe</a></li>
+                <li><a href="https://www.linkedin.com/in/simone-govender-91b8b2353/" target="_blank" rel="noreferrer">LinkedIn signal</a></li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+
+        <aside class="hologram-panel" id="destinationPanel" aria-live="polite">
+          <p class="eyebrow">Nearest destination</p>
+          <h2 id="holoTitle">Deductomatic</h2>
+          <p id="holoSummary">A live project destination is ready for docking.</p>
+          <div class="pill-row">
+            <span class="pill" id="holoCategory">Finance</span>
+            <span class="pill" id="holoTech">JavaScript</span>
+          </div>
+          <div class="holo-preview">
+            <iframe
+              id="holoPreview"
+              title="Selected project mini demo"
+              loading="lazy"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"
+            ></iframe>
+          </div>
+          <div class="stage-actions">
+            <button class="button small primary" id="enterSandbox" type="button">Enter sandbox</button>
+            <a class="button small" id="holoLive" href="#" target="_blank" rel="noreferrer">Open live</a>
+            <a class="button small ghost" id="holoRepo" href="#" target="_blank" rel="noreferrer">Repo</a>
+          </div>
+        </aside>
+
+        <div class="flight-deck" aria-label="Flight controls">
+          <div>
+            <strong>Flight controls</strong>
+            <span>WASD or arrows to drift. Mouse/touch to steer. Click a planet to inspect.</span>
+          </div>
+          <div class="flight-readout">
+            <span id="shipStatus">Autopilot scanning destinations</span>
+            <span id="destinationCount">38 destinations online</span>
+          </div>
+        </div>
+
+        <nav class="quick-destinations" aria-label="Quick project destinations">
+          <button class="quick-toggle" id="quickToggle" type="button" aria-expanded="false">Quick destinations</button>
+          <div id="quickDestinationList"></div>
+        </nav>
+      </section>
+
+      <section class="section-shell theatre-section" id="projects">
+        <div class="section-heading">
+          <p class="eyebrow">Destination bay</p>
+          <h2>Every verified live site from GitHub, preserved as an interactive sandbox.</h2>
+          <p>
+            Search, filter, launch a live preview, dock through the galaxy, or open the
+            original GitHub repository. The project purpose, links, and sandbox behavior
+            are preserved.
+          </p>
+        </div>
+
+        <div class="theatre-tools">
+          <label class="search-box">
+            <span>Search projects</span>
+            <input id="projectSearch" type="search" placeholder="Try SAP, tax, plant, travel, game...">
+          </label>
+          <div class="filter-row" id="categoryFilters" aria-label="Project filters"></div>
+          <button class="button small" id="shuffleProject" type="button">Surprise me</button>
+          <button class="button small ghost" id="loadVisiblePreviews" type="button">Load visible previews</button>
+        </div>
+
+        <div class="theatre-layout">
+          <div class="project-list" id="projectList" aria-live="polite"></div>
+
+          <aside class="sandbox-stage" aria-label="Selected live project sandbox">
+            <div class="browser-bar">
+              <span></span>
+              <span></span>
+              <span></span>
+              <p id="stageUrl">Select a project</p>
+            </div>
+            <iframe
+              id="sandboxFrame"
+              title="Selected project live sandbox"
+              loading="lazy"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"
+            ></iframe>
+            <div class="stage-copy">
+              <p class="eyebrow" id="stageCategory">Featured project</p>
+              <h3 id="stageTitle">Loading project stage</h3>
+              <p id="stageSummary"></p>
+              <div class="stage-actions">
+                <a class="button small primary" id="stageLive" href="#" target="_blank" rel="noreferrer">Open live site</a>
+                <a class="button small" id="stageRepo" href="#" target="_blank" rel="noreferrer">GitHub repo</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section-shell logbook-section" id="logbook">
+        <div class="section-heading">
+          <p class="eyebrow">Captain's log</p>
+          <h2>Curious, adaptable, and built for practical digital missions.</h2>
+          <p>
+            I build browser-based experiences with imagination and structure: practical
+            tools, playful interfaces, learning systems, product demos, and digital
+            experiments that show how quickly I can learn, document, and ship.
+          </p>
+        </div>
+        <div class="log-grid">
+          <article>
+            <h3>Navigation style</h3>
+            <p>Fast learner, careful documenter, structured problem-solver, and adaptable digital generalist.</p>
+          </article>
+          <article>
+            <h3>Mission fit</h3>
+            <p>Junior web, digital support, SAP support, data support, project coordination, admin, education technology, and content operations.</p>
+          </article>
+          <article>
+            <h3>Portfolio evidence</h3>
+            <p>38 live sites, 11 SAP credentials, updated CV bundle, and browser sandboxes that let recruiters inspect the work directly.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-shell skill-section" id="skills">
+        <div class="section-heading">
+          <p class="eyebrow">Skill constellation</p>
+        </div>
+        <div class="skill-grid constellation-grid">
+          <article>
+            <h3>Web development</h3>
+            <p>Git, GitHub workflow, front-end deployment, React basics, JavaScript, HTML, CSS, and browser-based project delivery.</p>
+          </article>
+          <article>
+            <h3>Data and analytics</h3>
+            <p>SQL, Python, pandas, data cleaning, statistics, Power BI, data modelling, Matplotlib, Seaborn, KNIME, and data literacy.</p>
+          </article>
+          <article>
+            <h3>UX and project work</h3>
+            <p>User-centred design thinking, research, project planning, process organisation, documentation, and structured delivery.</p>
+          </article>
+          <article>
+            <h3>SAP and enterprise systems</h3>
+            <p>SAP fundamentals, customer engagement, discovery, solution design, implementation, and hands-on technology consultant project exposure.</p>
+          </article>
+          <article>
+            <h3>Education and communication</h3>
+            <p>TEFL principles, lesson design, learner support, presentation, written communication, and classroom practice.</p>
+          </article>
+          <article>
+            <h3>Professional strengths</h3>
+            <p>Fast learning, digital adaptability, accuracy, analytical thinking, organisation, stakeholder communication, and continuous learning.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-shell sap-section" id="sap-certs">
+        <div class="section-heading">
+          <p class="eyebrow">Recent SAP certifications</p>
+          <h2>Fresh SAP certification and enterprise-systems learning, backed by verification links.</h2>
+          <p>
+            These SAP credentials show recent progress across SAP HANA database
+            administration, SAP Business Technology Platform, SAP Integration Suite,
+            professional fundamentals, solution design, implementation, discovery,
+            enterprise systems, and hands-on technology consultant project work.
+          </p>
+        </div>
+
+        <div class="credential-showcase" aria-label="Official SAP credential previews">
+          <article class="credential-card credential-feature">
+            <a class="credential-preview" href="assets/sap-hana-database-administrator-certification.pdf" target="_blank" rel="noreferrer">
+              <img src="assets/sap-hana-database-administrator-certification.png" alt="SAP Certified - Database Administrator - SAP HANA certificate preview">
+            </a>
+            <div>
+              <span>Issued Jun 20, 2026 - Expires Jun 21, 2027</span>
+              <h3>SAP Certified - Database Administrator - SAP HANA</h3>
+              <p>Official SAP certification verifying database administration skills in SAP HANA Cloud and SAP HANA.</p>
+              <div class="stage-actions">
+                <a class="button small primary" href="https://www.credly.com/badges/ac9ae6ba-613e-48b1-9c04-aaad28c939cc" target="_blank" rel="noreferrer">Verify on Credly</a>
+                <a class="button small" href="assets/sap-hana-database-administrator-certification.pdf" target="_blank" rel="noreferrer">Open PDF</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="credential-card">
+            <a class="credential-preview" href="assets/sap-btp-discovering-badge.pdf" target="_blank" rel="noreferrer">
+              <img src="assets/sap-btp-discovering-badge.png" alt="Discovering SAP Business Technology Platform badge preview">
+            </a>
+            <div>
+              <span>Issued May 27, 2026</span>
+              <h3>Discovering SAP Business Technology Platform</h3>
+              <p>Beginner SAP Learning badge covering SAP BTP, application development, and cloud strategy.</p>
+              <a href="https://badger.learning.sap.com/verify/xehul-cedar-belis-mykat-simol" target="_blank" rel="noreferrer">Verify SAP badge</a>
+            </div>
+          </article>
+
+          <article class="credential-card">
+            <a class="credential-preview" href="assets/sap-cpi-overview-badge.pdf" target="_blank" rel="noreferrer">
+              <img src="assets/sap-cpi-overview-badge.png" alt="SAP Cloud Platform Integration Service Overview badge preview">
+            </a>
+            <div>
+              <span>Issued May 26, 2026</span>
+              <h3>SAP Cloud Platform Integration Service Overview</h3>
+              <p>Intermediate SAP Learning badge for APIs, Cloud Integration, Integration Suite, and process modelling.</p>
+              <a href="https://badger.learning.sap.com/verify/xumis-mesil-cubag-lobub-tudub" target="_blank" rel="noreferrer">Verify SAP badge</a>
+            </div>
+          </article>
+
+          <article class="credential-card">
+            <a class="credential-preview" href="assets/sap-btp-exploring-badge.pdf" target="_blank" rel="noreferrer">
+              <img src="assets/sap-btp-exploring-badge.png" alt="Exploring SAP Business Technology Platform badge preview">
+            </a>
+            <div>
+              <span>Issued May 26, 2026</span>
+              <h3>Exploring SAP Business Technology Platform</h3>
+              <p>Beginner SAP Learning badge covering BTP foundations, analytics, integration, data management, security, and sustainability.</p>
+              <a href="https://badger.learning.sap.com/verify/xulyl-pocir-tidal-vyfev-sameb" target="_blank" rel="noreferrer">Verify SAP badge</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="cert-grid" aria-label="Recent SAP certifications">
+          <article class="cert-card">
+            <span>Feb 17, 2026</span>
+            <h3>Becoming an SAP Professional</h3>
+            <p>SAP via Coursera</p>
+            <a href="https://coursera.org/verify/77I04WR38I4X" target="_blank" rel="noreferrer">Verify credential</a>
+          </article>
+          <article class="cert-card">
+            <span>Feb 16, 2026</span>
+            <h3>SAP Technology Consultant Hands-on Project</h3>
+            <p>SAP via Coursera</p>
+            <a href="https://coursera.org/verify/8ZY0WY1P28HG" target="_blank" rel="noreferrer">Verify credential</a>
+          </article>
+          <article class="cert-card">
+            <span>Feb 14, 2026</span>
+            <h3>Implementing an SAP Solution</h3>
+            <p>SAP via Coursera</p>
+            <a href="https://coursera.org/verify/D8CIRZLIBB6O" target="_blank" rel="noreferrer">Verify credential</a>
+          </article>
+          <article class="cert-card">
+            <span>Feb 12, 2026</span>
+            <h3>Designing an SAP Solution</h3>
+            <p>SAP via Coursera</p>
+            <a href="https://coursera.org/verify/V9SGUAW9E66D" target="_blank" rel="noreferrer">Verify credential</a>
+          </article>
+          <article class="cert-card">
+            <span>Feb 12, 2026</span>
+            <h3>Understanding the Enterprise Systems Environment</h3>
+            <p>SAP via Coursera</p>
+            <a href="https://coursera.org/verify/89CRSSI1KJMJ" target="_blank" rel="noreferrer">Verify credential</a>
+          </article>
+          <article class="cert-card">
+            <span>Feb 10, 2026</span>
+            <h3>SAP Customer Engagement and Discovery</h3>
+            <p>SAP via Coursera</p>
+            <a href="https://coursera.org/verify/QVCCGYKGWJH4" target="_blank" rel="noreferrer">Verify credential</a>
+          </article>
+          <article class="cert-card feature-cert">
+            <span>Dec 22, 2025</span>
+            <h3>SAP Professional Fundamentals</h3>
+            <p>SAP via Coursera</p>
+            <a href="https://coursera.org/verify/5D8E7U11NCTH" target="_blank" rel="noreferrer">Verify credential</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-shell badge-section" id="badges">
+        <div class="section-heading">
+          <p class="eyebrow">Badge wall</p>
+          <h2>Scannable proof points for recruiters who read fast.</h2>
+          <p>
+            A visual badge layer for the portfolio: recent SAP learning, technical
+            foundations, analytics, UX, project work, AI, and teaching credentials.
+          </p>
+        </div>
+
+        <div class="badge-board" aria-label="Credential and skill badges">
+          <article class="badge-tile sap-badge">
+            <span class="badge-icon">SAP</span>
+            <h3>SAP Professional</h3>
+            <p>Official HANA certification, BTP badges, CPI badge, professional fundamentals, enterprise systems, discovery, solution design, implementation, and hands-on project work.</p>
+            <small>11 SAP credentials</small>
+          </article>
+          <article class="badge-tile">
+            <span class="badge-icon">GH</span>
+            <h3>GitHub Workflow</h3>
+            <p>Version control, GitHub Pages deployment, repository publishing, and live project presentation.</p>
+            <small>38 live sites embedded</small>
+          </article>
+          <article class="badge-tile">
+            <span class="badge-icon">WEB</span>
+            <h3>Front-End Builder</h3>
+            <p>HTML, CSS, JavaScript, React basics, responsive interfaces, and browser-based tools.</p>
+            <small>Portfolio-backed</small>
+          </article>
+          <article class="badge-tile">
+            <span class="badge-icon">UX</span>
+            <h3>UX Design</h3>
+            <p>Google UX Design training, user-centred thinking, research, presentation, and structured delivery.</p>
+            <small>Certificate-backed</small>
+          </article>
+          <article class="badge-tile">
+            <span class="badge-icon">PM</span>
+            <h3>Project Management</h3>
+            <p>Google Project Management training, planning, coordination, documentation, and stakeholder communication.</p>
+            <small>Certificate-backed</small>
+          </article>
+          <article class="badge-tile">
+            <span class="badge-icon">SQL</span>
+            <h3>Data Analytics</h3>
+            <p>SQL, Python, pandas, statistics, data cleaning, data transformation, and data literacy.</p>
+            <small>DataCamp + Coursera</small>
+          </article>
+          <article class="badge-tile">
+            <span class="badge-icon">PBI</span>
+            <h3>Power BI</h3>
+            <p>Data modelling, Power BI analysis, deployment and maintenance concepts, and PL-300 preparation.</p>
+            <small>Microsoft via Coursera</small>
+          </article>
+          <article class="badge-tile">
+            <span class="badge-icon">AI</span>
+            <h3>AI Fundamentals</h3>
+            <p>AI literacy, structured problem-solving, and practical awareness for modern digital support roles.</p>
+            <small>Certificate-backed</small>
+          </article>
+          <article class="badge-tile">
+            <span class="badge-icon">TEFL</span>
+            <h3>Teaching + Communication</h3>
+            <p>TEFL, lesson design, learner support, assessment, presentation, and written communication.</p>
+            <small>Education background</small>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-shell cv-section" id="cv">
+        <div class="cv-copy">
+          <p class="eyebrow">CV and certificates</p>
+          <h2>Updated CV with SAP accomplishments, credentials, and certificate evidence.</h2>
+          <p>
+            The attached CV now highlights SAP HANA database administration, SAP BTP,
+            SAP Cloud Platform Integration, SAP Integration Suite concepts, SAP-focused
+            projects, and the full certificate portfolio for supporting applications.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="assets/Simone_Govender_CV_Certificates.pdf" download>Download CV PDF</a>
+            <a class="button" href="assets/Simone_Govender_CV_Certificates.pdf" target="_blank" rel="noreferrer">Open in browser</a>
+          </div>
+        </div>
+        <a class="cv-preview" href="assets/Simone_Govender_CV_Certificates.pdf" target="_blank" rel="noreferrer" aria-label="Open Simon&eacute; Govender CV PDF">
+          <img src="assets/cv-cover.png" alt="Preview of Simon&eacute; Govender's CV cover page">
+        </a>
+      </section>
+
+      <section class="section-shell contact-section" id="contact">
+        <div>
+          <p class="eyebrow">Send Signal</p>
+          <h2>Transmit a message from your station.</h2>
+          <p>
+            For employers and collaborators: explore the live sandboxes, scan the CV,
+            then reach out through LinkedIn, GitHub, or email.
+          </p>
+        </div>
+        <div class="contact-actions">
+          <a class="button primary" href="mailto:simon3m3ll3m@gmail.com">Email Simone</a>
+          <a class="button" href="https://www.linkedin.com/in/simone-govender-91b8b2353/" target="_blank" rel="noreferrer">LinkedIn profile</a>
+          <a class="button" href="https://github.com/cosmicbubblegumgirl" target="_blank" rel="noreferrer">GitHub profile</a>
+          <button class="button ghost" id="copyEmail" type="button">Copy email</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Created by Simon&eacute; Govender. Live project data verified from public GitHub and deployment URLs on 23 June 2026.</p>
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="vendor/three.min.js" defer></script>
+    <script src="app.js" defer></script>
+  </body>
+</html>
