@@ -8,7 +8,7 @@ const projects = [
     language: "JavaScript",
     accent: "#00a6a6",
     featured: true,
-    summary: "A carbon emissions calculator with a creative spin, turning sustainability into an approachable browser tool."
+    summary: "I built a carbon emissions calculator with a creative spin, turning sustainability into an approachable browser tool."
   },
   {
     title: "Mind Check",
@@ -19,7 +19,7 @@ const projects = [
     language: "JavaScript",
     accent: "#ff6b4a",
     featured: true,
-    summary: "A self-reflection experience around ADHD and anxiety awareness with a knowledge-first tone."
+    summary: "I created a self-reflection experience around ADHD and anxiety awareness with a knowledge-first tone."
   },
   {
     title: "Deductomatic",
@@ -30,7 +30,7 @@ const projects = [
     language: "JavaScript",
     accent: "#2f6bff",
     featured: true,
-    summary: "A tax calculator presented as SA Tax Studio 3D, combining practical calculations with a memorable interface."
+    summary: "I built a tax calculator presented as SA Tax Studio 3D, combining practical calculations with a memorable interface."
   },
   {
     title: "e-Plant Shopping",
@@ -41,7 +41,7 @@ const projects = [
     language: "JavaScript",
     accent: "#4f9b36",
     featured: true,
-    summary: "A Paradise Nursery storefront project for browsing plant products through a front-end shopping flow."
+    summary: "I created a Paradise Nursery storefront project for browsing plant products through a front-end shopping flow."
   },
   {
     title: "Whimsical Simple Interest Calculator",
@@ -52,7 +52,7 @@ const projects = [
     language: "HTML",
     accent: "#ffbd4a",
     featured: true,
-    summary: "A simple interest calculator with a playful visual direction and clear form-based interaction."
+    summary: "I built a simple interest calculator with a playful visual direction and clear form-based interaction."
   },
   {
     title: "Normal Is Overrated",
@@ -63,7 +63,7 @@ const projects = [
     language: "JavaScript",
     accent: "#ef5da8",
     featured: true,
-    summary: "A Moonbeam Mind experience that frames neurodiversity and self-understanding through a distinctive UI."
+    summary: "I designed a Moonbeam Mind experience that frames neurodiversity and self-understanding through a distinctive UI."
   },
   {
     title: "Travel Recommendations",
@@ -74,7 +74,7 @@ const projects = [
     language: "HTML",
     accent: "#00a6a6",
     featured: true,
-    summary: "A magical travel recommendation website with destination discovery and themed content presentation."
+    summary: "I created a magical travel recommendation website with destination discovery and themed content presentation."
   },
   {
     title: "FlowForge Exam Lab",
@@ -85,7 +85,7 @@ const projects = [
     language: "JavaScript",
     accent: "#2f6bff",
     featured: true,
-    summary: "An SAP Integration Suite practical exam simulator with 118 original questions and a study-focused flow."
+    summary: "I built an SAP Integration Suite practical exam simulator with 118 original questions and a study-focused flow."
   },
   {
     title: "SAP Spellbook Academy",
@@ -96,7 +96,7 @@ const projects = [
     language: "JavaScript",
     accent: "#c7ff5b",
     featured: true,
-    summary: "A SAP C_CPI_2601 study planner and system-based assessment simulator."
+    summary: "I created a SAP C_CPI_2601 study planner and system-based assessment simulator."
   },
   {
     title: "Incident Management",
@@ -107,7 +107,7 @@ const projects = [
     language: "JavaScript",
     accent: "#2f6bff",
     featured: false,
-    summary: "A CLD200 incident management exercise and GitHub Pages demo."
+    summary: "I built a CLD200 incident management exercise and GitHub Pages demo."
   },
   {
     title: "Zemira's Pixels",
@@ -118,7 +118,7 @@ const projects = [
     language: "JavaScript",
     accent: "#ef5da8",
     featured: false,
-    summary: "A pixel-forward creative site with a visual identity built for exploration."
+    summary: "I created a pixel-forward creative site with a visual identity built for exploration."
   },
   {
     title: "DoodleFlow",
@@ -129,7 +129,7 @@ const projects = [
     language: "JavaScript",
     accent: "#ff6b4a",
     featured: false,
-    summary: "A standalone creative community web app and doodle feed experience."
+    summary: "I built a standalone creative community web app and doodle feed experience."
   },
   {
     title: "DoodleFlow Creative Community",
@@ -140,7 +140,7 @@ const projects = [
     language: "JavaScript",
     accent: "#00a6a6",
     featured: false,
-    summary: "An interactive GitHub Pages launchpad for Vercel-style app experiments."
+    summary: "I built an interactive GitHub Pages launchpad for Vercel-style app experiments."
   },
   {
     title: "FocusFlux",
@@ -151,7 +151,7 @@ const projects = [
     language: "JavaScript",
     accent: "#2f6bff",
     featured: false,
-    summary: "A focus-oriented browser app with a direct, task-friendly interface."
+    summary: "I created a focus-oriented browser app with a direct, task-friendly interface."
   },
   {
     title: "Cadance.exe: Portal After Midnight",
@@ -162,7 +162,7 @@ const projects = [
     language: "JavaScript",
     accent: "#ff6b4a",
     featured: false,
-    summary: "A characterful interactive portal with a late-night digital mood."
+    summary: "I designed a characterful interactive portal with a late-night digital mood."
   },
   {
     title: "Neon Tide",
@@ -173,7 +173,7 @@ const projects = [
     language: "JavaScript",
     accent: "#00a6a6",
     featured: false,
-    summary: "A browser game that brings motion, score-chasing, and arcade energy into the portfolio."
+    summary: "I built a browser game that brings motion, score-chasing, and arcade energy into my portfolio."
   },
   {
     title: "LearnLoop",
@@ -184,7 +184,7 @@ const projects = [
     language: "JavaScript",
     accent: "#2f6bff",
     featured: false,
-    summary: "A standalone adaptive learning studio with a dynamic front end and JSON data layer."
+    summary: "I created a standalone adaptive learning studio with a dynamic front end and JSON data layer."
   },
   {
     title: "ReturnReady",
@@ -195,7 +195,7 @@ const projects = [
     language: "HTML",
     accent: "#ff6b4a",
     featured: false,
-    summary: "A returns control tower concept for operational product storytelling."
+    summary: "I designed a returns control tower concept for operational product storytelling."
   },
   {
     title: "Nimbus Nook",
@@ -206,7 +206,7 @@ const projects = [
     language: "JavaScript",
     accent: "#00a6a6",
     featured: false,
-    summary: "An anxiety calming web app with a soothing product concept and focused interface."
+    summary: "I built an anxiety calming web app with a soothing product concept and focused interface."
   },
   {
     title: "LedgerLift",
@@ -217,7 +217,7 @@ const projects = [
     language: "JavaScript",
     accent: "#2f6bff",
     featured: false,
-    summary: "A cash-flow foresight product website for small business decision support."
+    summary: "I created a cash-flow foresight product website for small business decision support."
   },
   {
     title: "PantryPilot",
@@ -228,7 +228,7 @@ const projects = [
     language: "HTML",
     accent: "#4f9b36",
     featured: false,
-    summary: "A pantry management product concept with dynamic front-end content."
+    summary: "I built a pantry management product concept with dynamic front-end content."
   },
   {
     title: "DwellKit",
@@ -239,7 +239,7 @@ const projects = [
     language: "HTML",
     accent: "#00a6a6",
     featured: false,
-    summary: "A home-focused product website built as a standalone front-end experience."
+    summary: "I created a home-focused product website as a standalone front-end experience."
   },
   {
     title: "HireSignal",
@@ -250,7 +250,7 @@ const projects = [
     language: "HTML",
     accent: "#2f6bff",
     featured: false,
-    summary: "A hiring-signal product website with a sharp operational narrative."
+    summary: "I designed a hiring-signal product website with a sharp operational narrative."
   },
   {
     title: "GreenGrid",
@@ -261,7 +261,7 @@ const projects = [
     language: "HTML",
     accent: "#4f9b36",
     featured: false,
-    summary: "A product landing experience organized around green systems and structured content."
+    summary: "I built a product landing experience organized around green systems and structured content."
   },
   {
     title: "CivicLink",
@@ -272,7 +272,7 @@ const projects = [
     language: "HTML",
     accent: "#00a6a6",
     featured: false,
-    summary: "A civic product concept with a clean information architecture."
+    summary: "I created a civic product concept with a clean information architecture."
   },
   {
     title: "ShiftMate",
@@ -283,7 +283,7 @@ const projects = [
     language: "HTML",
     accent: "#ff6b4a",
     featured: false,
-    summary: "A shift coordination product website with practical workflow framing."
+    summary: "I designed a shift coordination product website with practical workflow framing."
   },
   {
     title: "CareFlow",
@@ -294,7 +294,7 @@ const projects = [
     language: "HTML",
     accent: "#2f6bff",
     featured: false,
-    summary: "A hospital command center concept for healthcare operations."
+    summary: "I built a hospital command center concept for healthcare operations."
   },
   {
     title: "Product Design Portfolio Pages",
@@ -305,7 +305,7 @@ const projects = [
     language: "HTML",
     accent: "#c7ff5b",
     featured: false,
-    summary: "A portfolio-oriented site presenting full stack, UX, and product design positioning."
+    summary: "I created a portfolio-oriented site presenting full stack, UX, and product design positioning."
   },
   {
     title: "NovaBite",
@@ -316,7 +316,7 @@ const projects = [
     language: "JavaScript",
     accent: "#ff6b4a",
     featured: false,
-    summary: "A quirky tasting experience site with a distinct brand mood."
+    summary: "I designed a quirky tasting experience site with a distinct brand mood."
   },
   {
     title: "Coaster's Cabs",
@@ -327,7 +327,7 @@ const projects = [
     language: "HTML",
     accent: "#00a6a6",
     featured: false,
-    summary: "A South Coast private cab service website with local business presentation."
+    summary: "I built a South Coast private cab service website with local business presentation."
   },
   {
     title: "Permit - AI Agent Governance",
@@ -338,7 +338,7 @@ const projects = [
     language: "JavaScript",
     accent: "#2f6bff",
     featured: false,
-    summary: "A product concept around AI agent governance and permissioning."
+    summary: "I created a product concept around AI agent governance and permissioning."
   },
   {
     title: "QuantumCupCakeCreations",
@@ -349,7 +349,7 @@ const projects = [
     language: "HTML",
     accent: "#ef5da8",
     featured: false,
-    summary: "A colorful portfolio experiment with a playful creative identity."
+    summary: "I built a colorful portfolio experiment with a playful creative identity."
   },
   {
     title: "GiftWrapped",
@@ -360,7 +360,7 @@ const projects = [
     language: "JavaScript",
     accent: "#ff6b4a",
     featured: false,
-    summary: "A gift-themed web experience with celebratory visual language."
+    summary: "I designed a gift-themed web experience with celebratory visual language."
   },
   {
     title: "GiftLink Sparkle",
@@ -371,7 +371,7 @@ const projects = [
     language: "JavaScript",
     accent: "#ef5da8",
     featured: false,
-    summary: "A polished gift-link project with a bright, social product direction."
+    summary: "I created a polished gift-link project with a bright, social product direction."
   },
   {
     title: "Moonbeam Mind",
@@ -382,7 +382,7 @@ const projects = [
     language: "JavaScript",
     accent: "#ef5da8",
     featured: false,
-    summary: "A spectrum-test concept focused on self-knowledge and reflective interaction."
+    summary: "I built a spectrum-test concept focused on self-knowledge and reflective interaction."
   },
   {
     title: "Nursery Paradise",
@@ -393,7 +393,7 @@ const projects = [
     language: "JavaScript",
     accent: "#4f9b36",
     featured: false,
-    summary: "A nursery storefront final project with plant shopping presentation."
+    summary: "I created a nursery storefront final project with plant shopping presentation."
   },
   {
     title: "Nusery Paradise",
@@ -404,7 +404,7 @@ const projects = [
     language: "JavaScript",
     accent: "#4f9b36",
     featured: false,
-    summary: "An alternate nursery storefront deployment kept as part of the live project archive."
+    summary: "I kept this alternate nursery storefront deployment as part of my live project archive."
   },
   {
     title: "Pixie Petal Patch",
@@ -415,7 +415,7 @@ const projects = [
     language: "CSS",
     accent: "#4f9b36",
     featured: false,
-    summary: "A Vite and React plant nursery storefront with a complete shopping feel."
+    summary: "I built a Vite and React plant nursery storefront with a complete shopping feel."
   }
 ];
 
@@ -542,8 +542,8 @@ function renderProjects() {
   if (!filtered.length) {
     elements.list.innerHTML = `
       <div class="project-card">
-        <h3>No matching projects yet</h3>
-        <p>Try a broader search term or switch back to All.</p>
+        <h3>I could not find a matching project yet</h3>
+        <p>Try a broader search term or switch back to all of my projects.</p>
       </div>
     `;
     return;
@@ -696,9 +696,9 @@ function wireClipboard() {
   elements.copyEmail.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText("simon3m3ll3m@gmail.com");
-      elements.copyEmail.textContent = "Email copied";
+      elements.copyEmail.textContent = "I copied my email";
     } catch {
-      elements.copyEmail.textContent = "Email: simon3m3ll3m@gmail.com";
+      elements.copyEmail.textContent = "My email: simon3m3ll3m@gmail.com";
     }
   });
 }

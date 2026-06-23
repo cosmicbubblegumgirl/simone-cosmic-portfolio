@@ -280,8 +280,9 @@ h3 {
 
 .portrait {
   width: 100%;
-  max-height: 460px;
-  object-fit: cover;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
   border-radius: 8px;
   filter: saturate(1.05) contrast(1.02);
 }
@@ -1135,17 +1136,21 @@ main {
 
 .commander-card {
   display: grid;
-  grid-template-columns: 108px 1fr;
-  gap: 14px;
+  grid-template-columns: minmax(132px, 158px) 1fr;
+  gap: 18px;
   padding: 16px;
   border-radius: 8px;
   max-width: 650px;
 }
 
 .commander-card .portrait {
-  max-height: 148px;
+  width: 100%;
+  max-height: none;
+  align-self: start;
+  object-fit: contain;
   border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow: 0 0 40px rgba(97, 244, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .commander-card .panel-kicker,
