@@ -1059,6 +1059,36 @@ main {
   color: #eaf9ff;
 }
 
+#autoPilot {
+  border-color: rgba(255, 225, 106, 0.98);
+  background: linear-gradient(135deg, #ffe16a, #ff8fd6);
+  color: #071018;
+  font-weight: 950;
+  text-shadow: none;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.12),
+    0 0 26px rgba(255, 225, 106, 0.34),
+    0 14px 32px rgba(0, 0, 0, 0.36);
+}
+
+#autoPilot:hover,
+#autoPilot:focus-visible {
+  border-color: #ffffff;
+  background: linear-gradient(135deg, #fff07d, #61f4ff);
+  color: #061018;
+}
+
+#autoPilot[aria-pressed="false"] {
+  border-color: rgba(255, 143, 214, 0.94);
+  background: linear-gradient(135deg, #25134b, #8c2f74);
+  color: #ffffff;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.62);
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.1),
+    0 0 24px rgba(255, 143, 214, 0.32),
+    0 14px 32px rgba(0, 0, 0, 0.36);
+}
+
 .stage-actions .button:not(.primary):not(.ghost),
 .credential-card .button:not(.primary):not(.ghost),
 .project-card .button:not(.primary):not(.ghost),
