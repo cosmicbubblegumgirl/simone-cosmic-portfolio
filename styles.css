@@ -1089,12 +1089,8 @@ main {
     0 14px 32px rgba(0, 0, 0, 0.36);
 }
 
-.stage-actions .button:not(.primary):not(.ghost),
-.credential-card .button:not(.primary):not(.ghost),
-.project-card .button:not(.primary):not(.ghost),
-.hologram-panel .button:not(.primary):not(.ghost),
-.cv-section .button:not(.primary):not(.ghost),
-.contact-actions .button:not(.primary):not(.ghost) {
+:is(.stage-actions, .credential-card, .project-card, .hologram-panel, .cv-section, .contact-actions)
+  .button:not(.primary):not(.ghost) {
   border-color: rgba(97, 244, 255, 0.82);
   background: linear-gradient(135deg, #07172d, #123a68);
   color: #ffffff;
@@ -1106,18 +1102,8 @@ main {
     0 14px 28px rgba(0, 0, 0, 0.34);
 }
 
-.stage-actions .button:not(.primary):not(.ghost):hover,
-.stage-actions .button:not(.primary):not(.ghost):focus-visible,
-.credential-card .button:not(.primary):not(.ghost):hover,
-.credential-card .button:not(.primary):not(.ghost):focus-visible,
-.project-card .button:not(.primary):not(.ghost):hover,
-.project-card .button:not(.primary):not(.ghost):focus-visible,
-.hologram-panel .button:not(.primary):not(.ghost):hover,
-.hologram-panel .button:not(.primary):not(.ghost):focus-visible,
-.cv-section .button:not(.primary):not(.ghost):hover,
-.cv-section .button:not(.primary):not(.ghost):focus-visible,
-.contact-actions .button:not(.primary):not(.ghost):hover,
-.contact-actions .button:not(.primary):not(.ghost):focus-visible {
+:is(.stage-actions, .credential-card, .project-card, .hologram-panel, .cv-section, .contact-actions)
+  .button:not(.primary):not(.ghost):is(:hover, :focus-visible) {
   border-color: #c7ff5b;
   background: linear-gradient(135deg, #0d284a, #155b92);
   color: #ffffff;

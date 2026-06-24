@@ -442,6 +442,26 @@ const state = {
   selectedIndex: 0
 };
 
+const FLIGHT_KEYS = new Set([
+  "arrowup",
+  "arrowdown",
+  "arrowleft",
+  "arrowright",
+  "w",
+  "a",
+  "s",
+  "d"
+]);
+
+const LAUNCH_STEPS = [
+  "Ignition armed",
+  "Star field calibrated",
+  "Project destinations online",
+  "Entering my portfolio universe"
+];
+
+const DOCK_MESSAGE_MS = 2400;
+
 const elements = {
   filters: document.querySelector("#categoryFilters"),
   list: document.querySelector("#projectList"),
@@ -739,32 +759,41 @@ function setAutoPilot(enabled) {
   );
 }
 
+function closeLaunchSequence() {
+  if (!elements.launchSequence) return;
+  elements.launchSequence.classList.remove("active");
+  elements.launchSequence.setAttribute("aria-hidden", "true");
+  cosmicState.launching = false;
+}
+
+function dockActiveProject() {
+  selectProject(cosmicState.activeIndex, true);
+  closeLaunchSequence();
+  cosmicState.dockedUntil = Date.now() + DOCK_MESSAGE_MS;
+  setMissionHud("Docking complete", "I opened the selected live sandbox in the project bay.", 100);
+  playSoftSignal();
+}
+
 function runLaunchSequence() {
   if (!elements.launchSequence) return;
-  const steps = [
-    "Ignition armed",
-    "Star field calibrated",
-    "Project destinations online",
-    "Entering my portfolio universe"
-  ];
 
   cosmicState.launching = true;
   elements.launchSequence.classList.add("active");
   elements.launchSequence.setAttribute("aria-hidden", "false");
-  steps.forEach((step, index) => {
+  LAUNCH_STEPS.forEach((step, index) => {
     window.setTimeout(() => {
+      if (!cosmicState.launching) return;
       elements.launchStep.textContent = step;
-      elements.launchMeter.style.width = `${((index + 1) / steps.length) * 100}%`;
-      setMissionHud("Launch sequence", step, ((index + 1) / steps.length) * 100);
+      elements.launchMeter.style.width = `${((index + 1) / LAUNCH_STEPS.length) * 100}%`;
+      setMissionHud("Launch sequence", step, ((index + 1) / LAUNCH_STEPS.length) * 100);
     }, index * 520);
   });
 
   window.setTimeout(() => {
-    elements.launchSequence.classList.remove("active");
-    elements.launchSequence.setAttribute("aria-hidden", "true");
-    cosmicState.launching = false;
+    if (!cosmicState.launching) return;
+    closeLaunchSequence();
     setMissionHud("Exploration mode", "Approach a glowing destination, then dock into its live sandbox.", 55);
-  }, steps.length * 520 + 720);
+  }, LAUNCH_STEPS.length * 520 + 720);
 }
 
 function updateHologram(index, loadPreview = true) {
@@ -840,10 +869,7 @@ function wireCosmicControls() {
   });
 
   elements.enterSandbox.addEventListener("click", () => {
-    selectProject(cosmicState.activeIndex, true);
-    cosmicState.dockedUntil = Date.now() + 2400;
-    setMissionHud("Docking complete", "I opened the selected live sandbox in the project bay.", 100);
-    playSoftSignal();
+    dockActiveProject();
   });
 
   elements.quickToggle.addEventListener("click", () => {
@@ -864,8 +890,9 @@ function wireCosmicControls() {
   });
 
   window.addEventListener("keydown", (event) => {
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "w", "a", "s", "d", "W", "A", "S", "D"].includes(event.key)) {
-      cosmicState.keys.add(event.key.toLowerCase());
+    const key = event.key.toLowerCase();
+    if (FLIGHT_KEYS.has(key)) {
+      cosmicState.keys.add(key);
       setAutoPilot(false);
     }
   });
@@ -898,10 +925,7 @@ function wireCosmicControls() {
   });
 
   elements.dockButton.addEventListener("click", () => {
-    selectProject(cosmicState.activeIndex, true);
-    cosmicState.dockedUntil = Date.now() + 2400;
-    setMissionHud("Docking complete", "I opened the selected live sandbox in the project bay.", 100);
-    playSoftSignal();
+    dockActiveProject();
   });
 }
 
