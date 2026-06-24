@@ -597,7 +597,7 @@ function renderProjects() {
     .join("");
 }
 
-function selectProject(index, scrollStage = false) {
+function syncSandboxStage(index, scrollStage = false) {
   const project = projects[index] || projects[0];
   state.selectedIndex = projects.indexOf(project);
   elements.stageTitle.textContent = project.title;
@@ -606,7 +606,9 @@ function selectProject(index, scrollStage = false) {
   elements.stageUrl.textContent = project.url;
   elements.stageLive.href = project.url;
   elements.stageRepo.href = project.repo;
-  elements.frame.src = project.url;
+  if (elements.frame.getAttribute("src") !== project.url) {
+    elements.frame.src = project.url;
+  }
   elements.frame.title = `${project.title} live sandbox`;
 
   document.querySelectorAll(".project-card").forEach((card) => {
@@ -616,6 +618,10 @@ function selectProject(index, scrollStage = false) {
   if (scrollStage) {
     document.querySelector(".sandbox-stage").scrollIntoView({ behavior: "smooth", block: "start" });
   }
+}
+
+function selectProject(index, scrollStage = false) {
+  syncSandboxStage(index, scrollStage);
 
   updateHologram(state.selectedIndex, false);
   highlightDestination(state.selectedIndex);
@@ -764,6 +770,7 @@ function runLaunchSequence() {
 function updateHologram(index, loadPreview = true) {
   const project = projects[index] || projects[0];
   cosmicState.activeIndex = projects.indexOf(project);
+  syncSandboxStage(cosmicState.activeIndex, false);
   elements.holoTitle.textContent = project.title;
   elements.holoSummary.textContent = project.summary;
   elements.holoCategory.textContent = project.category;
@@ -771,7 +778,7 @@ function updateHologram(index, loadPreview = true) {
   elements.holoLive.href = project.url;
   elements.holoRepo.href = project.repo;
 
-  if (loadPreview && cosmicState.lastPreviewIndex !== cosmicState.activeIndex) {
+  if (elements.holoPreview.getAttribute("src") !== project.url) {
     elements.holoPreview.src = project.url;
     elements.holoPreview.title = `${project.title} mini demo`;
     cosmicState.lastPreviewIndex = cosmicState.activeIndex;
@@ -1028,12 +1035,12 @@ function startCosmicScene() {
 
     ship.rotation.z = THREE.MathUtils.lerp(ship.rotation.z, -cosmicState.pointer.x * 0.34, 0.04);
     ship.rotation.x = THREE.MathUtils.lerp(ship.rotation.x, cosmicState.pointer.y * 0.16, 0.04);
-    const thruster = ship.children.find((child) => child.userData.thruster);
-    if (thruster) {
+    ship.traverse((thruster) => {
+      if (!thruster.userData.thruster) return;
       const pulse = 1 + Math.sin(t * 18) * 0.18 + (cosmicState.autoPilot ? 0.16 : 0.32);
       thruster.scale.set(1, pulse, 1);
       thruster.material.opacity = cosmicState.autoPilot ? 0.72 : 0.9;
-    }
+    });
 
     const follow = new THREE.Vector3(ship.position.x, ship.position.y + 9, ship.position.z + 30);
     camera.position.lerp(follow, 0.05);
@@ -1060,43 +1067,121 @@ function startCosmicScene() {
 
 function createShip(THREE) {
   const ship = new THREE.Group();
-  const bodyMaterial = new THREE.MeshStandardMaterial({
-    color: 0xeaf9ff,
-    metalness: 0.36,
-    roughness: 0.3,
-    emissive: 0x1fb8ff,
-    emissiveIntensity: 0.18
+  ship.scale.setScalar(1.24);
+
+  const hullMaterial = new THREE.MeshStandardMaterial({
+    color: 0xf4fbff,
+    metalness: 0.46,
+    roughness: 0.28,
+    emissive: 0x103d66,
+    emissiveIntensity: 0.22
   });
-  const glowMaterial = new THREE.MeshStandardMaterial({
-    color: 0xc7ff5b,
-    emissive: 0xc7ff5b,
-    emissiveIntensity: 1.2
+  const trimMaterial = new THREE.MeshStandardMaterial({
+    color: 0x61f4ff,
+    metalness: 0.34,
+    roughness: 0.24,
+    emissive: 0x1fb8ff,
+    emissiveIntensity: 0.62
+  });
+  const glassMaterial = new THREE.MeshStandardMaterial({
+    color: 0x9bf7ff,
+    metalness: 0.08,
+    roughness: 0.08,
+    emissive: 0x61f4ff,
+    emissiveIntensity: 0.85,
+    transparent: true,
+    opacity: 0.84
+  });
+  const engineMaterial = new THREE.MeshStandardMaterial({
+    color: 0x1b2848,
+    metalness: 0.58,
+    roughness: 0.26,
+    emissive: 0xff8fd6,
+    emissiveIntensity: 0.42
   });
 
-  const body = new THREE.Mesh(new THREE.ConeGeometry(0.85, 2.8, 4), bodyMaterial);
-  body.rotation.x = Math.PI / 2;
-  const cockpit = new THREE.Mesh(new THREE.SphereGeometry(0.38, 16, 12), glowMaterial);
-  cockpit.position.set(0, 0.28, -0.15);
-  const leftWing = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.08, 0.5), bodyMaterial);
-  leftWing.position.set(-0.65, -0.08, 0.35);
-  leftWing.rotation.z = 0.28;
+  const fuselage = new THREE.Mesh(new THREE.CylinderGeometry(0.46, 0.58, 3.2, 28), hullMaterial);
+  fuselage.rotation.x = Math.PI / 2;
+
+  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.48, 1.02, 28), hullMaterial);
+  nose.rotation.x = -Math.PI / 2;
+  nose.position.z = -2.08;
+
+  const cockpit = new THREE.Mesh(new THREE.SphereGeometry(0.34, 22, 14), glassMaterial);
+  cockpit.scale.set(1, 0.62, 1.25);
+  cockpit.position.set(0, 0.42, -0.8);
+
+  const leftWing = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.08, 0.64), trimMaterial);
+  leftWing.position.set(-0.86, -0.05, 0.18);
+  leftWing.rotation.z = 0.2;
+  leftWing.rotation.y = -0.18;
   const rightWing = leftWing.clone();
-  rightWing.position.x = 0.65;
-  rightWing.rotation.z = -0.28;
-  const engine = new THREE.Mesh(new THREE.ConeGeometry(0.36, 1.1, 18), glowMaterial);
-  engine.rotation.x = -Math.PI / 2;
-  engine.position.z = 1.52;
+  rightWing.position.x = 0.86;
+  rightWing.rotation.z = -0.2;
+  rightWing.rotation.y = 0.18;
+
+  const tailFin = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.86, 0.54), trimMaterial);
+  tailFin.position.set(0, 0.5, 1.26);
+  tailFin.rotation.x = -0.22;
+
+  const leftFin = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.52, 0.5), trimMaterial);
+  leftFin.position.set(-0.52, -0.38, 1.32);
+  leftFin.rotation.z = -0.52;
+  const rightFin = leftFin.clone();
+  rightFin.position.x = 0.52;
+  rightFin.rotation.z = 0.52;
+
+  const engineCore = new THREE.Mesh(new THREE.CylinderGeometry(0.33, 0.4, 0.8, 22), engineMaterial);
+  engineCore.rotation.x = Math.PI / 2;
+  engineCore.position.z = 1.86;
+  const leftEngine = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.24, 0.72, 18), engineMaterial);
+  leftEngine.rotation.x = Math.PI / 2;
+  leftEngine.position.set(-0.48, -0.08, 1.68);
+  const rightEngine = leftEngine.clone();
+  rightEngine.position.x = 0.48;
+
+  const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 8), glassMaterial);
+  beacon.position.set(0, 0.86, 0.52);
+
   const flameMaterial = new THREE.MeshBasicMaterial({
     color: 0xff8fd6,
     transparent: true,
     opacity: 0.78
   });
-  const flame = new THREE.Mesh(new THREE.ConeGeometry(0.3, 1.45, 18), flameMaterial);
-  flame.rotation.x = Math.PI / 2;
-  flame.position.z = 2.18;
-  flame.userData.thruster = true;
+  const mainFlame = new THREE.Mesh(new THREE.ConeGeometry(0.34, 1.52, 22), flameMaterial.clone());
+  mainFlame.rotation.x = Math.PI / 2;
+  mainFlame.position.z = 2.55;
+  mainFlame.userData.thruster = true;
+  const leftFlame = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.92, 16), flameMaterial.clone());
+  leftFlame.rotation.x = Math.PI / 2;
+  leftFlame.position.set(-0.48, -0.08, 2.22);
+  leftFlame.userData.thruster = true;
+  const rightFlame = leftFlame.clone();
+  rightFlame.material = flameMaterial.clone();
+  rightFlame.position.x = 0.48;
+  rightFlame.userData.thruster = true;
 
-  ship.add(body, cockpit, leftWing, rightWing, engine, flame);
+  const engineGlow = new THREE.PointLight(0xff8fd6, 0.75, 16);
+  engineGlow.position.set(0, 0, 2.35);
+
+  ship.add(
+    fuselage,
+    nose,
+    cockpit,
+    leftWing,
+    rightWing,
+    tailFin,
+    leftFin,
+    rightFin,
+    engineCore,
+    leftEngine,
+    rightEngine,
+    beacon,
+    mainFlame,
+    leftFlame,
+    rightFlame,
+    engineGlow
+  );
   return ship;
 }
 
