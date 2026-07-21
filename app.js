@@ -253,6 +253,17 @@ const projects = [
     summary: "I designed a hiring-signal product website with a sharp operational narrative."
   },
   {
+    title: "GreenGrid Action Tracker",
+    repoName: "greengrid-action-tracker",
+    url: "https://cosmicbubblegumgirl.github.io/greengrid-action-tracker/",
+    repo: "https://github.com/cosmicbubblegumgirl/greengrid-action-tracker",
+    category: "Climate",
+    language: "React + TS",
+    accent: "#24c26a",
+    featured: true,
+    summary: "I built a student-team environmental action tracker with animated impact stats, a living grid, quick action logging, challenge paths, and no-shame progress design."
+  },
+  {
     title: "GreenGrid",
     repoName: "greengrid",
     url: "https://cosmicbubblegumgirl.github.io/greengrid/",
