@@ -88,6 +88,17 @@ const projects = [
     summary: "I built an SAP Integration Suite practical exam simulator with 118 original questions and a study-focused flow."
   },
   {
+    title: "SAPling Studio",
+    repoName: "sap-experience-accelerator",
+    url: "https://cosmicbubblegumgirl.github.io/sap-experience-accelerator/",
+    repo: "https://github.com/cosmicbubblegumgirl/sap-experience-accelerator",
+    category: "SAP + Learning",
+    language: "React + TS",
+    accent: "#18c8b8",
+    featured: true,
+    summary: "I built a sleek SAP learner accelerator with account access, project roadmaps, working sandboxes, a community feedback wall, study tools, a resource shelf, and an evidence vault."
+  },
+  {
     title: "SAP Spellbook Academy",
     repoName: "the-plan-of-action",
     url: "https://cosmicbubblegumgirl.github.io/the-plan-of-action/",
@@ -341,7 +352,7 @@ const projects = [
     summary: "I built a South Coast private cab service website with local business presentation."
   },
   {
-    title: "Permit - AI Agent Governance",
+    title: "Permit - Agent Governance",
     repoName: "Leash",
     url: "https://cosmicbubblegumgirl.github.io/Leash/",
     repo: "https://github.com/cosmicbubblegumgirl/Leash",
@@ -349,7 +360,7 @@ const projects = [
     language: "JavaScript",
     accent: "#2f6bff",
     featured: false,
-    summary: "I created a product concept around AI agent governance and permissioning."
+    summary: "I created a product concept around agent governance, permissions and safer workflow control."
   },
   {
     title: "QuantumCupCakeCreations",
