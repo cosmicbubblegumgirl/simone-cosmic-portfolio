@@ -88,6 +88,17 @@ const projects = [
     summary: "I built an SAP Integration Suite practical exam simulator with 118 original questions and a study-focused flow."
   },
   {
+    title: "Syntax Circle",
+    repoName: "syntax-circle",
+    url: "https://cosmicbubblegumgirl.github.io/syntax-circle/",
+    repo: "https://github.com/cosmicbubblegumgirl/syntax-circle",
+    category: "SAP + Learning",
+    language: "JavaScript",
+    accent: "#31d8b1",
+    featured: true,
+    summary: "I built a space-tech student developer forum with learner accounts, a community wall, sandbox practice, Xayle, Timewarp scheduling, Pomodoro skins, prep tools, and portfolio-ready progress evidence."
+  },
+  {
     title: "SAPling Studio",
     repoName: "sap-experience-accelerator",
     url: "https://cosmicbubblegumgirl.github.io/sap-experience-accelerator/",
